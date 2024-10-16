@@ -8,7 +8,7 @@ from utilin.constants import AA_ALPHABET, AA_ALPHABET_GREMLIN
 
 def encode_sequences_one_hot(
     sequences: Union[List[str], pd.Series], aa_alphabet: str = "default"
-):
+) -> np.ndarray:
     alphabet = {
         "default": AA_ALPHABET,
         "gremlin": AA_ALPHABET_GREMLIN,

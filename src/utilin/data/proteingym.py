@@ -1,10 +1,12 @@
 import re
 from pathlib import Path
+from typing import Union
 
 import pandas as pd
 import requests
 from biotite.sequence import ProteinSequence
 from biotite.sequence.align import SubstitutionMatrix, align_optimal
+from biotite.sequence.io.fasta import FastaFile
 from loguru import logger
 from polyleven import levenshtein
 
@@ -16,13 +18,15 @@ class ProteinGym:
     Currently only support for substitutions.
     """
 
-    def __init__(self, proteingym_location, meta_data_path):
+    def __init__(
+        self, proteingym_location: Union[Path, str], meta_data_path: Union[Path, str]
+    ) -> None:
         self.proteingym_location = proteingym_location
         self.meta_data_path = meta_data_path
         self.reference_information = pd.read_csv(self.meta_data_path, index_col=None)
         self.available_pdbs = {}
 
-    def update_reference_information(self):
+    def update_reference_information(self) -> None:
         logger.info("Updating reference information with structure information.")
         pdb_entry_pattern = r".*PDB; [A-Z0-9]{4};.*"
         region_pattern = r"A=(\d+-\d+)"
@@ -67,12 +71,12 @@ class ProteinGym:
                         ] = True
                         break
 
-    def describe_dataset(self, dataset_name):
+    def describe_dataset(self, dataset_name: str) -> pd.DataFrame:
         return self.reference_information[
             self.reference_information["DMS_id"] == dataset_name
         ]
 
-    def fetch_msa(self, dataset_name):
+    def fetch_msa(self, dataset_name: str) -> FastaFile:
         uniprot_id = self.describe_dataset(dataset_name)["UniProt_ID"].values[0]
         matching_msa_paths = list(
             (Path(self.proteingym_location) / "MSA_files/DMS").rglob(f"{uniprot_id}*")
@@ -80,14 +84,14 @@ class ProteinGym:
         logger.info(f"Found {len(matching_msa_paths)} matching MSA files")
         return read_fasta(matching_msa_paths[0])
 
-    def prepare_dataset(self, dataset_name):
+    def prepare_dataset(self, dataset_name: str) -> pd.DataFrame:
         data = pd.read_csv(
             Path(self.proteingym_location)
             / f"cv_folds_singles_substitutions/{dataset_name}.csv"
         ).rename(columns={"mutated_sequence": "sequence"})
         return data
 
-    def distance_of_reference_to_uniprot(self, reference: str, uniprot: str):
+    def distance_of_reference_to_uniprot(self, reference: str, uniprot: str) -> int:
         mat = SubstitutionMatrix.std_protein_matrix()
         reference_sequence = ProteinSequence(reference)
         uniprot_sequence = ProteinSequence(uniprot)
@@ -99,7 +103,7 @@ class ProteinGym:
         edit_distance = levenshtein(reference, relevant_uniprot_sequence.__str__())
         return edit_distance
 
-    def region_is_subregion(self, region1: str, region2: str):
+    def region_is_subregion(self, region1: str, region2: str) -> bool:
         start1, end1 = tuple(int(value) for value in region1.split("-"))
         start2, end2 = tuple(int(value) for value in region2.split("-"))
         return (start1 >= start2) & (end1 <= end2)
