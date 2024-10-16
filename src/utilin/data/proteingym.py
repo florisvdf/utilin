@@ -49,9 +49,11 @@ class ProteinGym:
             )
             self.reference_information.loc[i, "structure_covers_mutated_region"] = False
             self.reference_information.loc[i, "uniprot_sequence"] = uniprot_sequence
-            self.reference_information.loc[
-                i, "reference_distance_to_uniprot"
-            ] = self.distance_of_reference_to_uniprot(reference_sequence, uniprot_sequence)
+            self.reference_information.loc[i, "reference_distance_to_uniprot"] = (
+                self.distance_of_reference_to_uniprot(
+                    reference_sequence, uniprot_sequence
+                )
+            )
             for entry in pdb_entries:
                 match = re.search(region_pattern, entry)
                 if match:

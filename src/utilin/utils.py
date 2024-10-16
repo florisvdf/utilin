@@ -11,5 +11,6 @@ def fetch_uniprot_sequence(uniprot_id: str):
     sequence = "".join(body.split("\n")[1:])
     return sequence
 
+
 def read_fasta(path: Union[str, Path]):
     return FastaFile.read(str(path))
