@@ -1,0 +1,21 @@
+[project]
+name = "utilin"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "matplotlib>=3.9.2",
+    "pandas>=2.2.3",
+    "jupyter>=1.1.1",
+    "seaborn>=0.13.2",
+    "loguru>=0.7.2",
+    "ruff>=0.6.9",
+    "biotite>=1.0.1",
+    "polyleven>=0.8",
+    "scikit-learn>=1.5.2",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
