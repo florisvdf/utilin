@@ -21,8 +21,9 @@ def plot_prediction_scatter(
     ax.set_xlabel(x_label, fontsize=axis_label_fontsize)
     ax.set_ylabel(y_label, fontsize=axis_label_fontsize)
     ax.set_title(title)
-    _, spearman = spearmanr(y_true, y_pred)
+    spearman, _ = spearmanr(y_true, y_pred)
     r2 = r2_score(y_true, y_pred)
+    print(spearman, r2)
     metrics_str = f"Spearman: {spearman:.2f}\nR2: {r2:.2f}"
     box_format = dict(boxstyle="round", facecolor="white", alpha=0.5)
     ax.text(
