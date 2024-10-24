@@ -28,8 +28,8 @@ jobs:
           python -m pip install --upgrade pip
           pip install tox
 
-#      - name: Run Tox
-#        run: tox
+      - name: Run Tox
+        run: tox
 
 #      - name: Install the project
 #        run: uv sync --all-extras --dev
