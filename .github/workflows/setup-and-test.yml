@@ -23,6 +23,13 @@ jobs:
       - name: Set up Python ${{ matrix.python-version }}
         run: uv python install ${{ matrix.python-version }}
 
+      - name: Install dependencies
+        run: |
+          uv install tox
+
+#      - name: Run Tox
+#        run: tox
+
 #      - name: Install the project
 #        run: uv sync --all-extras --dev
 #
