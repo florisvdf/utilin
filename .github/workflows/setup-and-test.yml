@@ -26,10 +26,10 @@ jobs:
         run:
 #          python -m pip install --upgrade pip
 #          pip install tox
-          uv tool install tox --with tox-uv
+          uv tool install tox --with tox-uv # Allows running uv in tox.ini
 
       - name: Run Tox
-        run: tox
+        run: uv tool run tox
 
 #      - name: Install the project
 #        run: uv sync --all-extras --dev

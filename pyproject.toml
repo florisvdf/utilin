@@ -8,7 +8,6 @@ dependencies = [
     "biotite>=0.40.0",
     "matplotlib>=3.7.5",
     "pandas>=2.0.3",
-    "jupyter>=1.1.1",
     "seaborn>=0.13.2",
     "loguru>=0.7.2",
     "ruff>=0.6.9",
@@ -16,11 +15,11 @@ dependencies = [
     "scikit-learn>=1.3.2",
     "pytest>=8.3.3",
     "numpy>1.24.4",
-    "tox>=4.23.2",
-]
+    "scipy>=1.10.1",
 
-numpy = [
-    ">=2.0; python_version >= '3.12'"
+    "numpy>=2.0; python_version >= '3.12'",
+    "scipy>=1.14.1; python_version >= '3.12'",
+    "pandas>=2.2.2; python_version >= '3.12'"
 ]
 
 
