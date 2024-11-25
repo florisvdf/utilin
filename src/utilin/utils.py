@@ -1,7 +1,7 @@
+import requests
 from pathlib import Path
 from typing import Union
 
-import requests
 from biotite.sequence.io.fasta import FastaFile
 
 
@@ -14,3 +14,13 @@ def fetch_uniprot_sequence(uniprot_id: str) -> str:
 
 def read_fasta(path: Union[str, Path]) -> FastaFile:
     return FastaFile.read(str(path))
+
+
+def sequence_to_mutations(variant: str, reference: str) -> str:
+    return ":".join(
+        [
+            f"{aa_ref}{pos+1}{aa_var}"
+            for pos, (aa_ref, aa_var) in enumerate(zip(reference, variant))
+            if aa_ref != aa_var
+        ]
+    )

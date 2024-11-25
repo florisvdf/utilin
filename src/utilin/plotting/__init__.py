@@ -1,3 +1,3 @@
-from .prediction import plot_prediction_scatter
+from .prediction import plot_correlation_scatter
 
-__all__ = ["plot_prediction_scatter"]
+__all__ = ["plot_correlation_scatter"]

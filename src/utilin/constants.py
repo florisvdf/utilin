@@ -44,6 +44,41 @@ SINGLE_TO_THREE_LETTER_CODES = {
     "Y": "TYR",
     "V": "VAL",
 }
+ATOMIC_MASSES = {
+    "H": 1.008,
+    "C": 12.011,
+    "N": 14.007,
+    "O": 15.999,
+    "P": 30.974,
+    "S": 32.065,
+}
 UNIPROT_ACCESSION_PATTERN = (
     r"[OPQ][0-9][A-Z0-9]{3}[0-9]|[A-NR-Z][0-9]([A-Z][A-Z0-9]{2}[0-9]){1,2}"
 )
+# %%
+CHEMICAL_ELEMENT_PATTERN = r"""
+    A[cglmrstu]     | 
+    B[aehikr]?      | 
+    C[adeflmnorsu]? | 
+    D[bsy]          | 
+    E[rsu]          | 
+    F[elmr]?        | 
+    G[ade]          | 
+    H[efgos]?       | 
+    I[nr]?          | 
+    Kr?             | 
+    L[airuv]        | 
+    M[cdgnot]       | 
+    N[abdehiop]?    | 
+    O[gs]?          | 
+    P[abdmortu]?    | 
+    R[abefghnu]     | 
+    S[bcegimnr]?    | 
+    T[abcehilms]    | 
+    U               | 
+    V               | 
+    W               | 
+    Xe              | 
+    Yb?             | 
+    Z[nr]
+""".replace("\n", "").replace(" ", "")
