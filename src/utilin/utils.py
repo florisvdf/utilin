@@ -16,7 +16,7 @@ def read_fasta(path: Union[str, Path]) -> FastaFile:
     return FastaFile.read(str(path))
 
 
-def sequence_to_mutations(variant: str, reference: str) -> str:
+def variant_sequence_to_mutations(variant: str, reference: str) -> str:
     return ":".join(
         [
             f"{aa_ref}{pos+1}{aa_var}"
