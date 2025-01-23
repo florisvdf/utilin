@@ -13,6 +13,8 @@ def encode_sequences_one_hot(
         "default": AA_ALPHABET,
         "gremlin": AA_ALPHABET_GREMLIN,
     }[aa_alphabet]
+    if isinstance(sequences, str):
+        sequences = [sequences]
     return np.array(
         [
             np.array([np.eye(len(alphabet))[alphabet.index(aa)] for aa in sequence])
