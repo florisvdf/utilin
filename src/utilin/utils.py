@@ -1,5 +1,6 @@
 import requests
 from pathlib import Path
+from collections import defaultdict
 from typing import Union
 
 from biotite.sequence.io.fasta import FastaFile
@@ -24,3 +25,23 @@ def variant_sequence_to_mutations(variant: str, reference: str) -> str:
             if aa_ref != aa_var
         ]
     )
+
+def determine_residue_offset(
+    structure_sequence: str, reference_sequence: str
+) -> int:
+    structure_residue_positions = {index: aa for index, aa in enumerate(structure_sequence)}
+    reference_residue_positions = {index: aa for index, aa in enumerate(reference_sequence)}
+    matching_pairs = []
+    for idx_a, char_a in structure_residue_positions.items():
+        for idx_b, char_b in reference_residue_positions.items():
+            if char_a == char_b:
+                matching_pairs.append((idx_a, idx_b))
+    offsets = defaultdict(int)
+    for idx_a, idx_b in matching_pairs:
+        offset = idx_b - idx_a
+        offsets[offset] += 1
+    if offsets:
+        most_frequent_offset = max(offsets, key=offsets.get)
+        return most_frequent_offset
+    else:
+        return 0

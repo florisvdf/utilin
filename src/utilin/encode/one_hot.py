@@ -3,7 +3,7 @@ from typing import Union, List
 import pandas as pd
 import numpy as np
 
-from utilin.constants import AA_ALPHABET, AA_ALPHABET_GREMLIN
+from utilin.constants import AA_ALPHABET, AA_ALPHABET_GREMLIN, AA_ALPHABET_ESM_IF1
 
 
 def encode_sequences_one_hot(
@@ -12,6 +12,7 @@ def encode_sequences_one_hot(
     alphabet = {
         "default": AA_ALPHABET,
         "gremlin": AA_ALPHABET_GREMLIN,
+        "esm_if1": AA_ALPHABET_ESM_IF1,
     }[aa_alphabet]
     if isinstance(sequences, str):
         sequences = [sequences]
