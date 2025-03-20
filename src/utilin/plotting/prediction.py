@@ -1,4 +1,4 @@
-from typing import Optional, Tuple
+from typing import Optional
 
 from numpy.typing import ArrayLike
 

@@ -1,5 +1,4 @@
 import numpy as np
-import pytest
 import pandas as pd
 
 from utilin.encode.one_hot import encode_sequences_one_hot
