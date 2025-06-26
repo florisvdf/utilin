@@ -1,7 +1,9 @@
 import requests
 from pathlib import Path
-from collections import defaultdict
+from collections import defaultdict, Counter
 from typing import Union, Dict, List
+
+import numpy as np
 
 from biotite.sequence.io.fasta import FastaFile
 
@@ -35,6 +37,20 @@ def write_fasta(
     else:
         raise TypeError("Sequences are not of type FastaFile, Dict or List")
     file.write(path)
+
+
+def reference_from_variant_sequences(sequences: list) -> str:
+    lengths = [len(seq) for seq in sequences]
+    unique_lengths = np.unique(lengths)
+    if len(unique_lengths) != 1:
+        raise ValueError("Sequence must all be of the same length!")
+    length = lengths[0]
+    sequence_grid = np.vstack(list(map(list, sequences)))
+    most_frequent = [
+        Counter(sequence_grid[:, i]).most_common()[0][0] for i in range(length)
+    ]
+    reference = "".join(most_frequent)
+    return reference
 
 
 def variant_sequence_to_mutations(variant: str, reference: str) -> str:

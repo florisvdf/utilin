@@ -84,11 +84,20 @@ class ProteinGym:
         logger.info(f"Found {len(matching_msa_paths)} matching MSA files")
         return read_fasta(matching_msa_paths[0])
 
-    def prepare_dataset(self, dataset_name: str) -> pd.DataFrame:
-        data = pd.read_csv(
-            Path(self.proteingym_location)
-            / f"cv_folds_singles_substitutions/{dataset_name}.csv"
-        ).rename(columns={"mutated_sequence": "sequence"})
+    def prepare_dataset(
+        self, dataset_name: str, singles_only: bool = False
+    ) -> pd.DataFrame:
+        if singles_only:
+            path = (
+                Path(self.proteingym_location)
+                / f"cv_folds_singles_substitutions/{dataset_name}.csv"
+            )
+        else:
+            path = (
+                Path(self.proteingym_location)
+                / f"substitutions_raw_DMS/{dataset_name}.csv"
+            )
+        data = pd.read_csv(path).rename(columns={"mutated_sequence": "sequence"})
         return data
 
     def distance_of_reference_to_uniprot(self, reference: str, uniprot: str) -> int:
