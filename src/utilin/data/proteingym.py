@@ -95,12 +95,13 @@ class ProteinGym:
         else:
             path = (
                 Path(self.proteingym_location)
-                / f"substitutions_raw_DMS/{dataset_name}.csv"
+                / f"cv_folds_multiples_substitutions/{dataset_name}.csv"
             )
         data = pd.read_csv(path).rename(columns={"mutated_sequence": "sequence"})
         return data
 
-    def distance_of_reference_to_uniprot(self, reference: str, uniprot: str) -> int:
+    @staticmethod
+    def distance_of_reference_to_uniprot(reference: str, uniprot: str) -> int:
         mat = SubstitutionMatrix.std_protein_matrix()
         reference_sequence = ProteinSequence(reference)
         uniprot_sequence = ProteinSequence(uniprot)
@@ -112,6 +113,7 @@ class ProteinGym:
         edit_distance = levenshtein(reference, relevant_uniprot_sequence.__str__())
         return edit_distance
 
+    @staticmethod
     def region_is_subregion(self, region1: str, region2: str) -> bool:
         start1, end1 = tuple(int(value) for value in region1.split("-"))
         start2, end2 = tuple(int(value) for value in region2.split("-"))

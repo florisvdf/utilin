@@ -63,6 +63,15 @@ def variant_sequence_to_mutations(variant: str, reference: str) -> str:
     )
 
 
+def mutations_to_sequence(mutations: List[str], reference: str) -> str:
+    split_sequence = list(reference)
+    for mutation in mutations:
+        position = int(mutation[1:-1])
+        mutated_residue = mutation[-1]
+        split_sequence[position - 1] = mutated_residue
+    return "".join(split_sequence)
+
+
 def determine_residue_offset(structure_sequence: str, reference_sequence: str) -> int:
     structure_residue_positions = {
         index: aa for index, aa in enumerate(structure_sequence)
