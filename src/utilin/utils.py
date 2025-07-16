@@ -93,3 +93,36 @@ def determine_residue_offset(structure_sequence: str, reference_sequence: str) -
         return most_frequent_offset
     else:
         return 0
+
+
+def sets_share_positions(set_1: tuple, set_2: tuple) -> bool:
+    return any([x == y for x in set_1 for y in set_2])
+
+
+def group_position_non_overlapping(combinations: List[tuple]) -> Dict[tuple, int]:
+    initial_grouping = dict(Counter(combinations))
+    combinations_have_overlap = True
+    new_grouping = initial_grouping.copy()
+    while combinations_have_overlap:
+        unique_sets = list(new_grouping.keys())
+        overlap_indicator = np.zeros(
+            (len(unique_sets), len(unique_sets)), dtype=np.int32
+        )
+        for i, set_1 in enumerate(unique_sets):
+            for j, set_2 in enumerate(unique_sets):
+                overlap_indicator[i, j] = int(sets_share_positions(set_1, set_2))
+        combinations_have_overlap = np.sum(np.triu(overlap_indicator, k=1)) > 0
+        set_with_most_overlap_idx = np.argmax(np.sum(overlap_indicator, axis=0))
+        sets_to_combine = [
+            unique_sets[r]
+            for r in np.where(overlap_indicator[set_with_most_overlap_idx])[0]
+        ]
+        new_combination = tuple(
+            set(position for combination in sets_to_combine for position in combination)
+        )
+        counts = 0
+        for old_set in sets_to_combine:
+            counts += new_grouping[old_set]
+            new_grouping.pop(old_set, None)
+        new_grouping[new_combination] = counts
+    return new_grouping
